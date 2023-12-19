@@ -69,6 +69,16 @@ class Module extends \humhub\components\Module
      * @see widgets\ProfileHeader
      */
     public $adminCanChangeUserProfileImages = false;
+	
+	/**
+	 * @var bool allow users to change own images
+	 */
+    public bool $userCanChangeOwnProfileImages = true;
+	
+	/**
+	 * @var int group id with priveleges to change user images like admin
+	 */
+	public int $groupIdCanChangeUserProfileImages = 0;
 
     /**
      * @var string Regular expression to check username characters
