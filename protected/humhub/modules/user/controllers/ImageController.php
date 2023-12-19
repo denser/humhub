@@ -8,6 +8,7 @@
 
 namespace humhub\modules\user\controllers;
 
+use humhub\modules\admin\models\GroupSearch;
 use humhub\modules\admin\permissions\ManageUsers;
 use humhub\modules\content\controllers\ContainerImageController;
 use humhub\modules\content\models\ContentContainer;
@@ -77,11 +78,11 @@ class ImageController extends ContainerImageController
         }
 
         /** @var User $user */
-        $user = Yii::$app->user->getIdentity();
-
-        if ($userProfile->is($user)) {
-            return true;
-        }
+	    $user = Yii::$app->user->getIdentity();
+	    
+	    if (($userProfile->is($user) && Yii::$app->getModule('user')->userCanChangeOwnProfileImages) && GroupSearch::findOne(Yii::$app->getModule('user')->groupIdCanChangeUserProfileImages)->getGroupUser($user)) {
+		    return true;
+	    }
 
         if (Yii::$app->getModule('user')->adminCanChangeUserProfileImages && Yii::$app->user->can(ManageUsers::class)) {
             return true;
