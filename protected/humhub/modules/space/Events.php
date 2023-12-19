@@ -14,6 +14,7 @@ use humhub\modules\user\events\UserEvent;
 use humhub\modules\space\models\Space;
 use humhub\modules\space\models\Membership;
 use humhub\modules\space\helpers\MembershipHelper;
+use humhub\modules\user\helpers\AuthHelper;
 use Yii;
 use yii\base\BaseObject;
 use humhub\components\Event;
@@ -112,6 +113,10 @@ class Events extends BaseObject
         if ($module->hideSpacesPage) {
             return;
         }
+	
+	    if (Yii::$app->user->isGuest && !AuthHelper::isGuestAccessEnabled()) {
+		    return;
+	    }
 
         if (!Yii::$app->user->isGuest &&
             !Yii::$app->user->can(SpaceDirectoryAccess::class)) {
