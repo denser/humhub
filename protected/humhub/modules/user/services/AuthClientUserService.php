@@ -83,7 +83,8 @@ class AuthClientUserService
     public function canChangeUsername(): bool
     {
         foreach ($this->getClients() as $authClient) {
-            if (get_class($authClient) == Password::class) {
+            //if (get_class($authClient) == Password::class) {
+            if (Yii::$app->user->isAdmin()) {
                 return true;
             }
         }
@@ -93,7 +94,8 @@ class AuthClientUserService
 
     public function canChangeEmail(): bool
     {
-        if (in_array('email', $this->getSyncAttributes())) {
+        //if (in_array('email', $this->getSyncAttributes())) {
+	    if (!Yii::$app->user->isAdmin()) {
             return false;
         }
 
@@ -102,11 +104,14 @@ class AuthClientUserService
 
     public function canDeleteAccount(): bool
     {
-        foreach ($this->getClients() as $authClient) {
+        /*foreach ($this->getClients() as $authClient) {
             if ($authClient instanceof AutoSyncUsers) {
                 return false;
             }
-        }
+        }*/
+	    if (!Yii::$app->user->isAdmin()) {
+	    	return false;
+	    }
 
         return true;
     }
@@ -119,7 +124,7 @@ class AuthClientUserService
     public function canChangePassword(): bool
     {
         $primaryAuthClient = $this->getPrimaryClient();
-        return $primaryAuthClient && get_class($primaryAuthClient) === Password::class;
+        return Yii::$app->user->isAdmin() && $primaryAuthClient && get_class($primaryAuthClient) === Password::class;
     }
 
     /**
