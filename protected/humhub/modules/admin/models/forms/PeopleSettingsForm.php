@@ -24,6 +24,13 @@ class PeopleSettingsForm extends Model
     public $detail1;
     public $detail2;
     public $detail3;
+    public $detail4;
+    public $detail5;
+    public $detail6;
+    public $detail7;
+    public $detail8;
+    public $detail9;
+    public $detail10;
     public $defaultSorting;
     public $defaultSortingGroup;
 
@@ -43,6 +50,13 @@ class PeopleSettingsForm extends Model
         $this->detail1 = Yii::$app->settings->get('people.detail1', '');
         $this->detail2 = Yii::$app->settings->get('people.detail2', '');
         $this->detail3 = Yii::$app->settings->get('people.detail3', '');
+        $this->detail4 = Yii::$app->settings->get('people.detail4', '');
+        $this->detail5 = Yii::$app->settings->get('people.detail5', '');
+        $this->detail6 = Yii::$app->settings->get('people.detail6', '');
+        $this->detail7 = Yii::$app->settings->get('people.detail7', '');
+        $this->detail8 = Yii::$app->settings->get('people.detail8', '');
+        $this->detail9 = Yii::$app->settings->get('people.detail9', '');
+        $this->detail10 = Yii::$app->settings->get('people.detail10', '');
         $this->defaultSorting = Yii::$app->settings->get('people.defaultSorting', 'lastlogin');
         $this->defaultSortingGroup = Yii::$app->settings->get('people.defaultSortingGroup', '');
     }
@@ -56,6 +70,13 @@ class PeopleSettingsForm extends Model
             ['detail1', 'in', 'range' => $this->getDetailKeys()],
             ['detail2', 'in', 'range' => $this->getDetailKeys()],
             ['detail3', 'in', 'range' => $this->getDetailKeys()],
+            ['detail4', 'in', 'range' => $this->getDetailKeys()],
+            ['detail5', 'in', 'range' => $this->getDetailKeys()],
+            ['detail6', 'in', 'range' => $this->getDetailKeys()],
+            ['detail7', 'in', 'range' => $this->getDetailKeys()],
+            ['detail8', 'in', 'range' => $this->getDetailKeys()],
+            ['detail9', 'in', 'range' => $this->getDetailKeys()],
+            ['detail10', 'in', 'range' => $this->getDetailKeys()],
             ['defaultSorting', 'in', 'range' => array_keys(self::getSortingOptions())],
             ['defaultSortingGroup', 'required', 'when' => function ($model) {
                 return $model->defaultSorting == '';
@@ -72,6 +93,13 @@ class PeopleSettingsForm extends Model
             'detail1' => Yii::t('AdminModule.user', 'Information 1'),
             'detail2' => Yii::t('AdminModule.user', 'Information 2'),
             'detail3' => Yii::t('AdminModule.user', 'Information 3'),
+            'detail4' => Yii::t('AdminModule.user', 'Information 4'),
+            'detail5' => Yii::t('AdminModule.user', 'Information 5'),
+            'detail6' => Yii::t('AdminModule.user', 'Information 6'),
+            'detail7' => Yii::t('AdminModule.user', 'Information 7'),
+            'detail8' => Yii::t('AdminModule.user', 'Information 8'),
+            'detail9' => Yii::t('AdminModule.user', 'Information 9'),
+            'detail10' => Yii::t('AdminModule.user', 'Information 10'),
             'defaultSorting' => Yii::t('AdminModule.user', 'Default Sorting'),
             'defaultSortingGroup' => Yii::t('AdminModule.user', 'Prioritised User Group'),
         ];
@@ -96,6 +124,13 @@ class PeopleSettingsForm extends Model
         Yii::$app->settings->set('people.detail1', $this->detail1);
         Yii::$app->settings->set('people.detail2', $this->detail2);
         Yii::$app->settings->set('people.detail3', $this->detail3);
+        Yii::$app->settings->set('people.detail4', $this->detail4);
+        Yii::$app->settings->set('people.detail5', $this->detail5);
+        Yii::$app->settings->set('people.detail6', $this->detail6);
+        Yii::$app->settings->set('people.detail7', $this->detail7);
+        Yii::$app->settings->set('people.detail8', $this->detail8);
+        Yii::$app->settings->set('people.detail9', $this->detail9);
+        Yii::$app->settings->set('people.detail10', $this->detail10);
         Yii::$app->settings->set('people.defaultSorting', $this->defaultSorting);
         Yii::$app->settings->set('people.defaultSortingGroup', $this->defaultSortingGroup);
 

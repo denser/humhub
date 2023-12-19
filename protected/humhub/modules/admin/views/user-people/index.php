@@ -23,10 +23,27 @@ use humhub\widgets\Button;
     <br />
 
     <?php $form = ActiveForm::begin(); ?>
+    
+    <style>
+        .form-group {
+            width: 33.3333333%;
+            float: left;
+        }
+        button {
+            margin: 20px;
+        }
+    </style>
 
     <?= $form->field($model, 'detail1')->dropDownList($model->getDetailOptions()); ?>
     <?= $form->field($model, 'detail2')->dropDownList($model->getDetailOptions()); ?>
     <?= $form->field($model, 'detail3')->dropDownList($model->getDetailOptions()); ?>
+    <?= $form->field($model, 'detail4')->dropDownList($model->getDetailOptions()); ?>
+    <?= $form->field($model, 'detail5')->dropDownList($model->getDetailOptions()); ?>
+    <?= $form->field($model, 'detail6')->dropDownList($model->getDetailOptions()); ?>
+    <?= $form->field($model, 'detail7')->dropDownList($model->getDetailOptions()); ?>
+    <?= $form->field($model, 'detail8')->dropDownList($model->getDetailOptions()); ?>
+    <?= $form->field($model, 'detail9')->dropDownList($model->getDetailOptions()); ?>
+    <?= $form->field($model, 'detail10')->dropDownList($model->getDetailOptions()); ?>
 
     <?= $form->field($model, 'defaultSorting')->dropDownList(PeopleSettingsForm::getSortingOptions()); ?>
     <div id="defaultSortingGroupSelector"<?php if ($model->defaultSorting !== '') : ?> style="display:none"<?php endif; ?>>
