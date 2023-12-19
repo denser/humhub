@@ -43,9 +43,13 @@ class PeopleDetails extends Widget
     {
         $lines = [];
 
-        for ($i = 1; $i <= 3; $i++) {
-            if ($profileField = $this->getProfileFieldValue(PeopleCard::config('detail' . $i))) {
-                $lines[] = $profileField;
+        for ($i = 1; $i <= 10; $i++) {
+	        $profileField = $this->getProfileFieldValue(PeopleCard::config('detail' . $i));
+        	//var_dump($profileField);
+	        if ($profileField &&
+		        !in_array($profileField, ['<a href="tel://" />',"",'<a href="mailto:" />']) &&
+		        !stristr($profileField, '<a href="/people')) {
+            	$lines[] = "<span id='detail$i'>$profileField</span>";
             }
         }
 
