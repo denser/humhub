@@ -69,21 +69,23 @@ class PeopleFilters extends DirectoryFilters
         ]);
 
         // Connection
-        $connectionOptions = [
-            '' => Yii::t('UserModule.base', 'All'),
-            'followers' => Yii::t('UserModule.base', 'Followers'),
-            'following' => Yii::t('UserModule.base', 'Following'),
-        ];
-        if (Yii::$app->getModule('friendship')->settings->get('enable')) {
-            $connectionOptions['friends'] = Yii::t('UserModule.base', 'Friends');
-            $connectionOptions['pending_friends'] = Yii::t('UserModule.base', 'Pending Requests');
-        }
-        $this->addFilter('connection', [
-            'title' => Yii::t('SpaceModule.base', 'Status'),
-            'type' => 'dropdown',
-            'options' => $connectionOptions,
-            'sortOrder' => 400,
-        ]);
+	    if (!Yii::$app->getModule('user')->disableFollow) {
+		    $connectionOptions = [
+			    '' => Yii::t('UserModule.base', 'All'),
+			    'followers' => Yii::t('UserModule.base', 'Followers'),
+			    'following' => Yii::t('UserModule.base', 'Following'),
+		    ];
+		    if (Yii::$app->getModule('friendship')->settings->get('enable')) {
+			    $connectionOptions['friends'] = Yii::t('UserModule.base', 'Friends');
+			    $connectionOptions['pending_friends'] = Yii::t('UserModule.base', 'Pending Requests');
+		    }
+		    $this->addFilter('connection', [
+			    'title' => Yii::t('SpaceModule.base', 'Status'),
+			    'type' => 'dropdown',
+			    'options' => $connectionOptions,
+			    'sortOrder' => 400,
+		    ]);
+	    }
 
         // Profile fields
         $profileFields = ProfileField::find()
