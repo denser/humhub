@@ -6,6 +6,7 @@
  */
 
 use humhub\libs\Html;
+use humhub\modules\content\widgets\richtext\RichText;
 use humhub\modules\space\models\Space;
 use humhub\modules\space\widgets\Image;
 use humhub\modules\space\widgets\SpaceDirectoryActionButtons;
@@ -37,6 +38,13 @@ use yii\web\View;
         <?php if (trim($space->description) !== '') : ?>
             <div class="card-details"><?= Html::encode($space->description); ?></div>
         <?php endif; ?>
+	    <?php if (trim($space->about) !== '') : ?>
+            <div>
+                <div data-ui-markdown data-ui-show-more data-collapse-at="600">
+				    <?= RichText::output($space->about) ?>
+                </div>
+            </div>
+	    <?php endif; ?>
         <?= SpaceDirectoryTagList::widget([
             'space' => $space,
             'template' => '<div class="card-tags">{tags}</div>',
