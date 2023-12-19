@@ -42,3 +42,4 @@ favicon.ico
 /.php_cs.cache
 
 .DS_Store
+/php-pages/
