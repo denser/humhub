@@ -10,6 +10,7 @@ namespace humhub\modules\user\controllers;
 use humhub\components\access\ControllerAccess;
 use humhub\components\Controller;
 use humhub\modules\user\components\PeopleQuery;
+use humhub\modules\user\helpers\AuthHelper;
 use humhub\modules\user\permissions\PeopleAccess;
 use humhub\modules\user\widgets\PeopleCard;
 use humhub\modules\user\widgets\PeopleFilterPicker;
@@ -46,10 +47,10 @@ class PeopleController extends Controller
      */
     protected function getAccessRules()
     {
-        return [
+        return !AuthHelper::isGuestAccessEnabled()?[
             [ControllerAccess::RULE_LOGGED_IN_ONLY],
             ['permissions' => [PeopleAccess::class]],
-        ];
+        ]:[];
     }
 
     /**
