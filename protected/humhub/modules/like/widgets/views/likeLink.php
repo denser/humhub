@@ -22,7 +22,7 @@ humhub\modules\like\assets\LikeAsset::register($this);
         <!-- Create link to show all users, who liked this -->
     <a href="<?= $userListUrl; ?>" data-target="#globalModal">
         <?php if (count($likes)) : ?>
-            <span class="likeCount tt" data-placement="top" data-toggle="tooltip" title="<?= $title ?>">(<?= count($likes) ?>)</span>
+            <span class="likeCount tt" data-placement="top" data-toggle="tooltip" title="<?= $title ?>"> <?= count($likes) ?></span>
         <?php else: ?>
             <span class="likeCount"></span>
         <?php endif; ?>
