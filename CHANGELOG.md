@@ -4,6 +4,8 @@ HumHub Changelog
 1.15.3 (Unreleased)
 -------------------
 - Enh #6779: Added Twig Sandbox Extension for Statistic Tracking Codes
+- Fix #6791: Fix number of filtered modules on Marketplace
+- Fix #6796: Files in the RichText doesn't open as new tab
 
 1.15.2 (December 19, 2023)
 --------------------------
