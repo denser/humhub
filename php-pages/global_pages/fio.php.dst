@@ -1,0 +1,62 @@
+<?php
+
+use humhub\libs\ProfileImage;
+use humhub\modules\user\components\PeopleQuery;
+use humhub\modules\user\models\User;
+
+//$peopleQuery = new PeopleQuery();
+$peopleQuery = User::findAll(['status' => User::STATUS_ENABLED]);
+$edit = isset($_GET['setPhoto']);
+
+if($edit) echo <<<EOT
+EOT;
+else echo <<<EOT
+<form method="get">
+<input name="setPhoto" value="1" type="hidden"/>
+<input type="submit"/>
+</form>
+EOT;
+
+echo <<<EOT
+<pre>
+<table border="1">
+<tr>
+<th>ФИО</th>
+<th>фото</th>
+<th>кандидат</th>
+</tr>
+EOT;
+
+foreach($peopleQuery as $user){
+	if($user->attributes['visibility']==3) continue;
+	$guid = $user->attributes['guid'];
+	$fio = $user->profile->lastname." ".$user->profile->firstname;
+	$img = "{$guid}.jpg";
+	$img_org = "{$guid}_org.jpg";
+	$newImg = new ProfileImage($guid);
+	$hasImg = $newImg->hasImage()?1:0;
+	if($hasImg)continue;
+	$path = Yii::getAlias('@webroot/uploads/fio/'.$fio.'.jpg');
+	$hasCandidate = file_exists($path)?1:0;
+	if($hasCandidate && $edit) $newImg->setNew($path);
+	//$newImg->setNew();
+	//setNew
+	$editGo = $edit ? 1 : 0;
+	echo <<<EOT
+<tr>
+<td>$fio</td>
+<td>$hasImg</td>
+<td>$hasCandidate</td>
+</tr>
+EOT;
+
+	//echo "ФИО: $fio<br>";
+	//echo "<img class='img-rounded' src='/uploads/profile_image/$img?m=$time' alt='$fio' style='width: 16px; height: 16px'>";
+	//echo "<img class='img-rounded' src='/uploads/profile_image/$img_org?m=$time' alt='$fio' style='width: 50px; height: 50px'><br><br>";
+	//var_dump($user->profile);
+	//var_dump($people->attributes['guid']);
+}
+echo <<<EOT
+</table>
+</pre>
+EOT;
