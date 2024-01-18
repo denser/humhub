@@ -1,0 +1,103 @@
+<?php
+/**
+ * Page for headhunter search results show
+ */
+
+
+/**
+ * @param DOMDocument $dom
+ * @param string $attr
+ * @param array $attrNames
+ * @param string $tag
+ * @param string $remAttr
+ */
+function removeByAttr($dom, $attr, $attrNames, $tag = '*', $remAttr = ''){
+	$finder = new DomXPath($dom);
+	foreach ($attrNames as $attrName){
+		//$nodes = $finder->query("//*[contains(@$attr, '$classname')]");
+		$nodes = $finder->query("//{$tag}[contains(@{$attr}, '{$attrName}')]");
+		for ($i = $nodes->length; --$i >= 0; ) {
+			$href = $nodes->item($i);
+			//$url = $href->getAttribute('href');
+			if($remAttr) $href->removeAttribute($remAttr);
+			if(!$remAttr) $href->parentNode->removeChild($href);
+		}
+	}
+}
+
+/**
+ * @param DOMDocument $dom
+ * @param string $tag
+ */
+function removeByTag($dom, $tag) {
+	$nodes = $dom->getElementsByTagName($tag);
+	for ($i = $nodes->length; --$i >= 0; ) {
+		$href = $nodes->item($i);
+		$href->parentNode->removeChild($href);
+	}
+}
+
+# here you must add url to open
+$hhLink = 'https://*.hh.ru/search/vacancy?from=employerPage&employer_id=*&hhtmFrom=employer';
+
+$dom = new DOMDocument();
+$dom->loadHTMLFile($hhLink, LIBXML_NOERROR);
+$head = $dom->getElementsByTagName("head")->item(0);
+
+$excludeClass = [
+	'banner-place-wrapper',
+	'serp-item-controls',
+	'vacancy-serp-subscription',
+	'serp-special',
+	//'vacancy-serp-item-company',
+	'vacancy-serp-item-activity',
+	'bloko-v-spacing bloko-v-spacing_base-4',
+];
+
+$itemHeight = 222;// * count($excludeClass);
+
+removeByAttr($dom, 'class', $excludeClass, 'div');
+removeByAttr($dom, 'data-qa', ['vacancy-serp__vacancy-employer'], 'a', 'href');
+removeByAttr($dom, 'data-qa', ['vacancy-label-be-first', 'vacancy-label-no-resume'], 'span');
+removeByAttr($dom, 'method', ['POST'], 'form');
+removeByTag($dom, 'script');
+
+$data = $dom->getElementById("a11y-main-content");
+echo "<div class='container' style='padding-top: 100px'>";
+echo $dom->saveHTML($head);
+echo $dom->saveHTML($data);
+echo "</div>";
+echo <<<EOT
+<style>
+body {
+	min-width: unset;
+}
+/*x2*/
+/*.serp-item {
+    !*padding: 20px;*!
+    width: 48%;
+    float: left;
+    margin: 10px;
+    height: 120px;
+}*/
+/*x3*/
+.serp-item {
+	    /*padding: 20px;*/
+	    width: 265px;
+	    float: left;
+	    margin: 5px;
+	    /*height: {$itemHeight}px;*/
+	}
+</style>
+EOT;
+
+use humhub\libs\Html; ?>
+<script <?= Html::nonce() ?>>
+    $(document).ready(function() {
+        let maxHeight = Math.max.apply(null, $("div.serp-item").map(function () {
+            return $(this).height();
+        }).get());
+
+        $("div.serp-item").height(maxHeight);
+    });
+</script>
